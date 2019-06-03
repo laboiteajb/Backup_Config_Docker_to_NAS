@@ -15,6 +15,10 @@ PathSonarr=/home/$User/Media/Apps/sonarr/config/Backups/scheduled/*
 PathJackett=/home/$User/Media/Apps/jackett/Jackett/*
 PathRclone=/home/$User/.config/rclone/rclone.conf
 PathSyncthing=/home/$User/Media/Apps/syncthing/config/*
+PathPlex=/home/$User/Media/Apps/Plex/*
+PathJeedomServer=/home/$User/Media/Apps/jeedom-server/*
+PathJeedomSQL=/home/$User/Media/Apps/jeedom-mysql/*
+
 ##
 # Suppression du dossier de Backup
 rm /tmp/Backup/ -R 2>&1
@@ -117,6 +121,54 @@ rm /tmp/Backup/Syncthing -r
 ###################################
 ###################################
 echo ############
+echo Backup Plex
+# Backup Plex
+mkdir /tmp/Backup/Plex
+
+# Arret du container Plex
+docker stop plex
+
+# Copie des Fichiers
+cp $PathPlex /tmp/Backup/Plex -r
+
+# Démarrage du container Plex
+docker start plex
+
+# Compression du dossier
+tar czvf /tmp/Backup/Plex_`date +%Y-%m-%d_%H-%M`.tar.gz /tmp/Backup/Plex 2>&1 | grep "something"
+
+# Suppression du dossier de Backup Plex
+rm /tmp/Backup/Plex -r
+###################################
+###################################
+echo ############
+echo Backup Jeedom Server et SQL
+# Backup Jeedom
+mkdir /tmp/Backup/JeedomServer
+mkdir /tmp/Backup/JeedomSQL
+
+# Arret des container Jeedom
+docker stop jeedom-server
+docker stop jeedom-mysql
+
+# Copie des Fichiers
+cp $PathJeedomServer /tmp/Backup/JeedomServer -r
+cp $PathJeedomSQL /tmp/Backup/JeedomSQL -r
+
+# Démarrage des container Jeedom Server et SQL
+docker start jeedom-mysql
+docker start jeedom-server
+
+# Compression du dossier
+tar czvf /tmp/Backup/JeedomServer_`date +%Y-%m-%d_%H-%M`.tar.gz /tmp/Backup/JeedomServer 2>&1 | grep "something"
+tar czvf /tmp/Backup/JeedomSQL_`date +%Y-%m-%d_%H-%M`.tar.gz /tmp/Backup/JeedomSQL 2>&1 | grep "something"
+
+# Suppression du dossier de Backup Jeedom Server et SQL
+rm /tmp/Backup/JeedomServer -r
+rm /tmp/Backup/JeedomSQL -r
+###################################
+###################################
+echo ############
 echo Attribution des fichiers à $User
 # Attribution des fichiers à votre utilisateur
 chown $User:$User /tmp/Backup/*.tar.gz
@@ -128,6 +180,9 @@ rclone copy /tmp/Backup/Sonarr* NAS:/Backup/Apps/Sonarr
 rclone copy /tmp/Backup/Jackett* NAS:/Backup/Apps/Jackett
 rclone copy /tmp/Backup/Rclone* NAS:/Backup/Apps/Rclone
 rclone copy /tmp/Backup/Syncthing* NAS:/Backup/Apps/Syncthing
+rclone copy /tmp/Backup/Plex* NAS:/Backup/Apps/Plex
+rclone copy /tmp/Backup/Plex* NAS:/Backup/Apps/JeedomServer
+rclone copy /tmp/Backup/Plex* NAS:/Backup/Apps/JeedomSQL
 
 echo Suppression des sauvegardes
 # Suppression des sauvegardes
@@ -136,6 +191,9 @@ rclone delete --min-age 1M NAS:/Backup/Apps/Sonarr
 rclone delete --min-age 1M NAS:/Backup/Apps/Jackett
 rclone delete --min-age 1M NAS:/Backup/Apps/Rclone
 rclone delete --min-age 1M NAS:/Backup/Apps/Syncthing
+rclone delete --min-age 1M NAS:/Backup/Apps/Plex
+rclone delete --min-age 1M NAS:/Backup/Apps/JeedomServer
+rclone delete --min-age 1M NAS:/Backup/Apps/JeedomSQL
 
 # Suppression du dossier Backup
 rm /tmp/Backup -R
