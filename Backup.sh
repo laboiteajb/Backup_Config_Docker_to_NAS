@@ -123,19 +123,19 @@ chown $User:$User /tmp/Backup/*.tar.gz
 
 echo Trasfert des fichiers
 # Trasfert des fichiers
-runuser -l $User -c 'rclone copy /tmp/Backup/Radarr* NAS:/Backup/Apps/Radarr' 
-runuser -l $User -c 'rclone copy /tmp/Backup/Sonarr* NAS:/Backup/Apps/Sonarr'
-runuser -l $User -c 'rclone copy /tmp/Backup/Jackett* NAS:/Backup/Apps/Jackett'
-runuser -l $User -c 'rclone copy /tmp/Backup/Rclone* NAS:/Backup/Apps/Rclone'
-runuser -l $User -c 'rclone copy /tmp/Backup/Syncthing* NAS:/Backup/Apps/Syncthing'
+rclone copy /tmp/Backup/Radarr* NAS:/Backup/Apps/Radarr
+rclone copy /tmp/Backup/Sonarr* NAS:/Backup/Apps/Sonarr
+rclone copy /tmp/Backup/Jackett* NAS:/Backup/Apps/Jackett
+rclone copy /tmp/Backup/Rclone* NAS:/Backup/Apps/Rclone
+rclone copy /tmp/Backup/Syncthing* NAS:/Backup/Apps/Syncthing
 
 echo Suppression des sauvegardes
 # Suppression des sauvegardes
-runuser -l $User -c 'rclone delete --min-age 1M NAS:/Backup/Apps/Radarr'
-runuser -l $User -c 'rclone delete --min-age 1M NAS:/Backup/Apps/Sonarr'
-runuser -l $User -c 'rclone delete --min-age 1M NAS:/Backup/Apps/Jackett'
-runuser -l $User -c 'rclone delete --min-age 1M NAS:/Backup/Apps/Rclone'
-runuser -l $User -c 'rclone delete --min-age 1M NAS:/Backup/Apps/Syncthing'
+rclone delete --min-age 1M NAS:/Backup/Apps/Radarr
+rclone delete --min-age 1M NAS:/Backup/Apps/Sonarr
+rclone delete --min-age 1M NAS:/Backup/Apps/Jackett
+rclone delete --min-age 1M NAS:/Backup/Apps/Rclone
+rclone delete --min-age 1M NAS:/Backup/Apps/Syncthing
 
 # Suppression du dossier Backup
 rm /tmp/Backup -R
