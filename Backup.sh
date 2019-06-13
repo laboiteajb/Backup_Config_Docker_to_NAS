@@ -181,8 +181,8 @@ rclone copy /tmp/Backup/Jackett* NAS:/Backup/Apps/Jackett
 rclone copy /tmp/Backup/Rclone* NAS:/Backup/Apps/Rclone
 rclone copy /tmp/Backup/Syncthing* NAS:/Backup/Apps/Syncthing
 rclone copy /tmp/Backup/Plex* NAS:/Backup/Apps/Plex
-rclone copy /tmp/Backup/Plex* NAS:/Backup/Apps/JeedomServer
-rclone copy /tmp/Backup/Plex* NAS:/Backup/Apps/JeedomSQL
+rclone copy /tmp/Backup/JeedomServer* NAS:/Backup/Apps/JeedomServer
+rclone copy /tmp/Backup/JeedomSQL* NAS:/Backup/Apps/JeedomSQL
 
 echo Suppression des sauvegardes
 # Suppression des sauvegardes
