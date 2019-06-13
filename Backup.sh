@@ -13,7 +13,7 @@ echo ############
 PathRadarr=/home/$User/Media/Apps/radarr/config/Backups/scheduled/*
 PathSonarr=/home/$User/Media/Apps/sonarr/config/Backups/scheduled/*
 PathJackett=/home/$User/Media/Apps/jackett/Jackett/*
-PathRclone=/home/$User/.config/rclone/rclone.conf
+PathRclone=/root/.config/rclone/rclone.conf
 PathSyncthing=/home/$User/Media/Apps/syncthing/config/*
 PathPlex=/home/$User/Media/Apps/Plex/*
 PathJeedomServer=/home/$User/Media/Apps/jeedom-server/*
